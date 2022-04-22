@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<h2>Orders</h2>
+<form class="header__search" method="GET" action="{% url 'shope:index' %}">
+    <input type="text" id="myInput" name="q" placeholder="Search for ." title="Type in a name">
+</form>
+<table id="myTable">
+    <thead>
+    <tr class="header">
+        <th style="width:3%;">#</th>
+        <th style="width:10%;">Item Name</th>
+        <th style="width:10%;">Customer Name</th>
+        <th style="width:10%;">Quantity</th>
+        <th style="width:10%;">Total Price</th>
+        <th style="width:10%;">Customer Address</th>
+        <th style="width:10%;">Order Number</th>
+        <th style="width:10%;">Tracking Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for o in orders %}
+        <tr>
+            <td>
+                {{ forloop.counter }}
+            </td>
+            <td>{{ o.item.item_name }}</td>
+            <td>{{ o.customer.first_name }} {{ o.customer.last_name }}</td>
+            <td>{{ o.quantity }}</td>
+            <td>{% widthratio o.quantity 1 o.item.item_price %}</td>
+            <td>{{ o.customer.address }}</td>
+            <td>{{ o.order_number }}</td>
+            <td>{{ o.tracking_number }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+
+<!--
+  Search use java script
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+-->
+</body>
+</html>
